@@ -4,12 +4,12 @@ using namespace std;
 
 
 
-//ÒÔÉıĞòÎª»ù×¼
+//ä»¥å‡åºä¸ºåŸºå‡†
 
 
 /**************************************************************************************/
 
-/*µ¥Á´±íÅÅĞò*/
+/*å•é“¾è¡¨æ’åº*/
 struct Node
 {
 	int key;
@@ -40,7 +40,7 @@ Node* GetPartion(Node* pBegin, Node* pEnd)
 
 void QuickSort(Node* pBeign, Node* pEnd)
 {
-	if (pBeign->next == pEnd || pBeign == NULL)
+	if (pBeign == pEnd)
 		return;
 	if (pBeign != pEnd)
 	{
@@ -49,19 +49,19 @@ void QuickSort(Node* pBeign, Node* pEnd)
 		QuickSort(partion->next, pEnd);
 	}
 }
-/*Ã°Åİ*/
+/*å†’æ³¡*/
 void BubbleSort(Node* pBeign)
 {
 	if (pBeign == NULL)
 		return;
-	Node* tail = NULL;/*¿ØÖÆÌËÊı*/
+	Node* tail = NULL;/*æ§åˆ¶è¶Ÿæ•°*/
 	while (tail != pBeign)
 	{
 		Node* prev = pBeign;
 		Node* cur = prev->next;
-		bool flag = true;/*±ê¼Ç ¼õÉÙÎŞĞ§µÄ±È½Ï*/
+		bool flag = true;/*æ ‡è®° å‡å°‘æ— æ•ˆçš„æ¯”è¾ƒ*/
 
-		while (cur != tail)/*Ò»ÌËÅÅĞò*/
+		while (cur != tail)/*ä¸€è¶Ÿæ’åº*/
 		{
 			if (cur->key < prev->key)
 			{
@@ -119,15 +119,27 @@ void test1()
 }
 
 /********************************************************************/
-/*µ¥Á´±íÄæÖ±*/
+/*å•é“¾è¡¨é€†ç›´*/
 void rever(Node* pBegin)
 {
+	if(pBegin==NULL || pBegin->next==NULL)
+		return ;
+	pBegin->next = NULL;
+	Node* SubHead = pBegin->next;
+	while(SubHead)
+	{
+		Node* Ins = SubHead;
+		SubHead = SubHead->next;
+		
+		Ins->next = pBegin;
+		pBegin = Ins;
+	}
 }
 
 
 /***************************************************************************************/
 
-void unitPrint(int a[], int n, int i) //´òÓ¡Ã¿ÌË½á¹û
+void unitPrint(int a[], int n, int i) //æ‰“å°æ¯è¶Ÿç»“æœ
 {
 	cout << i << ":";
 	for (int j = 0; j < 8; j++) {
@@ -137,18 +149,18 @@ void unitPrint(int a[], int n, int i) //´òÓ¡Ã¿ÌË½á¹û
 }
 /**************************************************************************************/
 /*
-¿ìÅÅ£¬½»»»ÅÅĞòµÄÒ»ÖÖ  Ê±¼ä¸´ÔÓ¶ÈO(n* lg n)
+å¿«æ’ï¼Œäº¤æ¢æ’åºçš„ä¸€ç§  æ—¶é—´å¤æ‚åº¦O(n* lg n)
 
-·ÖÈı²½£º
-1.Ñ¡È¡ÊàÖá
-2.ÓÃÊàÖá°ÑÔªËØ·Ö¿ª£¬  ×ó±ß±ÈËûĞ¡£¬ÓÒ±ß±ÈËû´ó
-3.µİ¹éÅÅĞò£¬×ó£¬ÓÒÁ½²¿·Ö
+åˆ†ä¸‰æ­¥ï¼š
+1.é€‰å–æ¢è½´
+2.ç”¨æ¢è½´æŠŠå…ƒç´ åˆ†å¼€ï¼Œ  å·¦è¾¹æ¯”ä»–å°ï¼Œå³è¾¹æ¯”ä»–å¤§
+3.é€’å½’æ’åºï¼Œå·¦ï¼Œå³ä¸¤éƒ¨åˆ†
 
 */
-int GetPart(int ar[], int head, int tail)/*ÍÚ¿Ó·¨*/
+int GetPart(int ar[], int head, int tail)/*æŒ–å‘æ³•*/
 {
 	int left = head;
-	int right = tail - 1;	//ÒÔÉıĞò£¬ÓÒ±ê¼ÇÕÒĞ¡µÄ
+	int right = tail - 1;	//ä»¥å‡åºï¼Œå³æ ‡è®°æ‰¾å°çš„
 	int key = ar[left];
 	while (left < right)
 	{
@@ -156,7 +168,7 @@ int GetPart(int ar[], int head, int tail)/*ÍÚ¿Ó·¨*/
 			right--;
 		if (left < right)
 		{
-			ar[left] = ar[right];//ÕÒµ½Ğ¡µÄ ½»»»£¬ ÓÒ±ß³ÉÎªÒ»¸öÎŞÓÃµÄ¡°¿Ó¡±
+			ar[left] = ar[right];//æ‰¾åˆ°å°çš„ äº¤æ¢ï¼Œ å³è¾¹æˆä¸ºä¸€ä¸ªæ— ç”¨çš„â€œå‘â€
 			left++;		//	
 		}
 
@@ -164,11 +176,11 @@ int GetPart(int ar[], int head, int tail)/*ÍÚ¿Ó·¨*/
 			left++;
 		if (left < right)
 		{
-			ar[right] = ar[left];	//×ó±ß³ÉÎªĞÂµÄ¿Ó
+			ar[right] = ar[left];	//å·¦è¾¹æˆä¸ºæ–°çš„å‘
 			right--;
 		}
 	}
-	ar[left] = key;				//½«ÊàÖá·ÅÈë×îºóÒ»¸ö¿ÓÖĞ£¨midÎ»ÖÃ£©
+	ar[left] = key;				//å°†æ¢è½´æ”¾å…¥æœ€åä¸€ä¸ªå‘ä¸­ï¼ˆmidä½ç½®ï¼‰
 
 	return left;
 }
@@ -209,9 +221,9 @@ void  test2()
 
 
 /*
-Ñ¡Ôñ£º
-µÚÒ»´ÎÕÒ×îĞ¡£¬ÓëµÚÒ»¸öÎ»ÖÃ½»»»
-µÚ¶ş´Î´ÓÊ£ÏÂµÄÖĞÕÒµÚ¶şĞ¡£¬ÓëµÚ¶ş¸öÎ»ÖÃ½»»»
+é€‰æ‹©ï¼š
+ç¬¬ä¸€æ¬¡æ‰¾æœ€å°ï¼Œä¸ç¬¬ä¸€ä¸ªä½ç½®äº¤æ¢
+ç¬¬äºŒæ¬¡ä»å‰©ä¸‹çš„ä¸­æ‰¾ç¬¬äºŒå°ï¼Œä¸ç¬¬äºŒä¸ªä½ç½®äº¤æ¢
 */
 void SelectSort(int ar[], int n)
 {
@@ -226,7 +238,7 @@ void SelectSort(int ar[], int n)
 		if (min != i)
 			std::swap(ar[min], ar[i]);
 		/*****************************/
-		unitPrint(ar, n, i);		//´òÓ¡Ã¿´ÎµÄ½á¹û
+		unitPrint(ar, n, i);		//æ‰“å°æ¯æ¬¡çš„ç»“æœ
 	}
 }
 
@@ -249,15 +261,15 @@ void test3()
 
 /******************************************************************/
 /*
-²åÈëÅÅĞò £¬ ´øÓĞÉÚ±øÎ»
+æ’å…¥æ’åº ï¼Œ å¸¦æœ‰å“¨å…µä½
 
-//	(ÉÚ±øÎ»)4,3,5,2,0,9,7,1
-·ÖÁ½²½£º
-1.´ÓµÚ¶ş¸öÊµ¼ÊµÄÔªËØ³ö·¢£¬´ÓºóÏòÇ°±È½Ï£¬°ÑËü²åÈëºÏÊÊµÄÎ»ÖÃ,ÀıÈç°Ñ3²åµ½4µÄÎ»ÖÃ£¬
-°Ñ4ºóÒÆ£¬ĞÎ³É3£¬4£¬5£¬2¡­¡­
-3.Ñ­»· ÌËÊı ´ÓµÚ¶ş¸öµ½×îºóÍê³É²åÈë
+//	(å“¨å…µä½)4,3,5,2,0,9,7,1
+åˆ†ä¸¤æ­¥ï¼š
+1.ä»ç¬¬äºŒä¸ªå®é™…çš„å…ƒç´ å‡ºå‘ï¼Œä»åå‘å‰æ¯”è¾ƒï¼ŒæŠŠå®ƒæ’å…¥åˆé€‚çš„ä½ç½®,ä¾‹å¦‚æŠŠ3æ’åˆ°4çš„ä½ç½®ï¼Œ
+æŠŠ4åç§»ï¼Œå½¢æˆ3ï¼Œ4ï¼Œ5ï¼Œ2â€¦â€¦
+3.å¾ªç¯ è¶Ÿæ•° ä»ç¬¬äºŒä¸ªåˆ°æœ€åå®Œæˆæ’å…¥
 
-×Ü½á£º´ÓµÚ¶ş¸öÔªËØµ½×îºó£¬²åÈëÆäÊÊµ±Î»ÖÃ£¨ÒªÒÆ¶¯´óÁ¿ÔªËØ£©
+æ€»ç»“ï¼šä»ç¬¬äºŒä¸ªå…ƒç´ åˆ°æœ€åï¼Œæ’å…¥å…¶é€‚å½“ä½ç½®ï¼ˆè¦ç§»åŠ¨å¤§é‡å…ƒç´ ï¼‰
 */
 
 
@@ -267,7 +279,7 @@ void InsertSort(int ar[], int n)
 	{
 		if (ar[i] < ar[i - 1])
 		{
-			int Guard = ar[i];	//ÉÚ±ø
+			int Guard = ar[i];	//å“¨å…µ
 			int j = i - 1;
 			while (ar[j] > Guard)
 			{
@@ -276,7 +288,7 @@ void InsertSort(int ar[], int n)
 			}
 			ar[j + 1] = Guard;
 		}
-		unitPrint(ar, n, i);		//´òÓ¡Ã¿´ÎµÄ½á¹û
+		unitPrint(ar, n, i);		//æ‰“å°æ¯æ¬¡çš„ç»“æœ
 	}
 }
 
@@ -298,12 +310,12 @@ void test4()
 
 
 /*
-Ï£¶û £¨ËõĞ¡ÔöÁ¿£©²åÈë		ÔöÁ¿ĞòÁĞd = {n/2 ,n/4, n/8 .....1} nÎªÒªÅÅĞòÊıµÄ¸öÊı
+å¸Œå°” ï¼ˆç¼©å°å¢é‡ï¼‰æ’å…¥		å¢é‡åºåˆ—d = {n/2 ,n/4, n/8 .....1} nä¸ºè¦æ’åºæ•°çš„ä¸ªæ•°
 */
 
 /*
-´ıÅÅĞò£º4,3,5,2,0,9,7,1
-ÔöÁ¿ĞòÁĞ {5£¬3£¬1}
+å¾…æ’åºï¼š4,3,5,2,0,9,7,1
+å¢é‡åºåˆ— {5ï¼Œ3ï¼Œ1}
 */
 
 void ShellInsertSort(int ar[], int n, int dk)
@@ -313,7 +325,7 @@ void ShellInsertSort(int ar[], int n, int dk)
 		if (ar[i] < ar[i - dk])
 		{
 			int j = i - dk;
-			int Guard = ar[i];//ÉÚ±ø
+			int Guard = ar[i];//å“¨å…µ
 			ar[i] = ar[i - dk];
 
 			while (ar[j] > Guard)
@@ -357,13 +369,13 @@ void test5()
 }
 /*****************************************************************************/
 /*
-¹é²¢ÅÅĞò
-·ÖÁ½²½£º
-1£º¡· void Merge(int ar[], int left, int mid, int right)
-Ò»¸öÊı×éÓÉmid»®·Ö³É×óÓÒÁ½²¿·Ö£¬²¢ÇÒÁ½²¿·Ö¶¼ÎªÓĞĞò£¬ÔõÑù²ÅÄÜÈÃÕû¸öÊı×éÓĞĞò¡£
+å½’å¹¶æ’åº
+åˆ†ä¸¤æ­¥ï¼š
+1ï¼šã€‹ void Merge(int ar[], int left, int mid, int right)
+ä¸€ä¸ªæ•°ç»„ç”±midåˆ’åˆ†æˆå·¦å³ä¸¤éƒ¨åˆ†ï¼Œå¹¶ä¸”ä¸¤éƒ¨åˆ†éƒ½ä¸ºæœ‰åºï¼Œæ€æ ·æ‰èƒ½è®©æ•´ä¸ªæ•°ç»„æœ‰åºã€‚
 
-2£º¡· void MergeSort(int ar[], int left, int right)
-·¶Î§´Ó´óµ½Ğ¡µİ¹é
+2ï¼šã€‹ void MergeSort(int ar[], int left, int right)
+èŒƒå›´ä»å¤§åˆ°å°é€’å½’
 */
 
 
@@ -378,7 +390,7 @@ void Merge(int*ar, int left, int mid, int right)
 	int start2 = mid + 1;
 	int cur = left;
 
-	while (start1 <= mid && start2 <= right)//[]ĞÎÇø¼ä  ¼ÇµÃÅĞ¶ÏÌõ¼şÒ»¶¨ÊÇ<=  Òª¿¼ÂÇ·¶Î§ÄÚµÄ×îºóÒ»¸öÔªËØ
+	while (start1 <= mid && start2 <= right)//[]å½¢åŒºé—´  è®°å¾—åˆ¤æ–­æ¡ä»¶ä¸€å®šæ˜¯<=  è¦è€ƒè™‘èŒƒå›´å†…çš„æœ€åä¸€ä¸ªå…ƒç´ 
 	{
 		if (_other[start1] < _other[start2])
 			ar[cur++] = _other[start1++];
@@ -395,11 +407,11 @@ void MergeSort(int*ar, int left, int right)
 	if (left >= right)
 		return;
 
-	int mid = (left + right) / 2;		//(left+right)/2 £º µ±left right¶¼´óÓÚ×î´óÕûÊı±íÊ¾·¶Î§µÄ1/2Ê±£¬Ôò»á·¢ÉúÒç³ö
+	int mid = (left + right) / 2;		//(left+right)/2 ï¼š å½“left rightéƒ½å¤§äºæœ€å¤§æ•´æ•°è¡¨ç¤ºèŒƒå›´çš„1/2æ—¶ï¼Œåˆ™ä¼šå‘ç”Ÿæº¢å‡º
 
-	MergeSort(ar, left, mid);			//µİ¹é×ó²¿·ÖÅÅĞò  
-	MergeSort(ar, mid + 1, right);		//µİ¹éÓÒ²¿·ÖÅÅĞò  
-	Merge(ar, left, mid, right);      //ºÏ²¢  
+	MergeSort(ar, left, mid);			//é€’å½’å·¦éƒ¨åˆ†æ’åº  
+	MergeSort(ar, mid + 1, right);		//é€’å½’å³éƒ¨åˆ†æ’åº  
+	Merge(ar, left, mid, right);      //åˆå¹¶  
 }
 
 void test6()
@@ -420,34 +432,34 @@ void test6()
 
 
 /*
-¶ÑÅÅĞò
+å †æ’åº
 */
 
 /***********************************************************************/
 void main()
 {
-	//test1();			//µ¥Á´±í ¿ìÅÅ,Ã°Åİ
+	//test1();			//å•é“¾è¡¨ å¿«æ’,å†’æ³¡
 	//cout << endl;
 
-	test2();			//¿ìÅÅ
+	test2();			//å¿«æ’
 	cout << endl;
 
-	//test3();			//Ñ¡Ôñ
+	//test3();			//é€‰æ‹©
 	//cout << endl;
 
-	//test4();		//Ö±½Ó²åÈë
+	//test4();		//ç›´æ¥æ’å…¥
 	//cout << endl;
 
-	//test5();			//Ï£¶û(²åÈë)
+	//test5();			//å¸Œå°”(æ’å…¥)
 	//cout << endl;
 
-	//test6();			//¹é²¢
+	//test6();			//å½’å¹¶
 	//cout << endl;
 }
 
 
 
-//void test7()/*´òÓ¡×Ö·û´®µØÖ·*/
+//void test7()/*æ‰“å°å­—ç¬¦ä¸²åœ°å€*/
 //{
 //	char*c = "cadn\0hello";
 //	char *str = "string";
